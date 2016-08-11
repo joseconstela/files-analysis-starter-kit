@@ -1,4 +1,6 @@
-# Files analysis starter kit
+![Files analysis starter kit](docs/header.png)
+
+<hr>
 
 Project for analysing large amount of files with NodeJs (& MongoDb).
 
