@@ -3,9 +3,9 @@
 /**
  * Do the actual analysis
  * @param  {Object}   dbs      Contains DB connections
- * @param  {Object}   task     Contains the file information
+ * @param  {Object}   fileInfo Contains the file information
  *
- * Example of task parameter:
+ * Example of fileInfo parameter:
  * { root: '/',
  * dir: '/.../files-analysis-starter-kit/data/L11',
  * base: 'myPdfFile.PDF',
@@ -17,7 +17,7 @@
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-const work = (dbs, task, callback) => {
+const work = (dbs, fileInfo, callback) => {
   setImmediate(callback)
 }
 
