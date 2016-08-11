@@ -4,24 +4,24 @@
 * ==========================================
 */
 
-const os = require('os'),
-      async = require('async'),
+const async = require('async'),
       lodash = require('lodash'),
       debug = require('./libs/debug'),
       filesLib = require('./libs/files'),
       analysisLib = require('./libs/analysis'),
+      performanceTweaks = require('./libs/performanceTweaks'),
       pdfText = require('pdf-text'),
       mongoClient = require('mongodb').MongoClient,
       config = require('./config')
 
 let   dbs = {},
       filesList = []
+      console.log('performanceTweaks', performanceTweaks);
 
-/*
-* CONFIG VARIAVLES
-*/
-const dropCollections = ['pdf'],
-      availableCPUs = os.cpus().length - 1
+/**
+ * Performance tweaks
+ */
+let assignedCpus = performanceTweaks.cpus.assigned()
 
 /*
 * ==========================================
@@ -31,8 +31,9 @@ process.on('exit', (code) => {
   debug.exit(code)
 })
 
+
 debug.title('files-analysis-starter-kit')
-debug.info(`Up to ${availableCPUs} CPUs ${os.cpus()[0].model}`)
+debug.info(`Using up to ${assignedCpus} CPUs ${performanceTweaks.cpus.model}`)
 
 debug.title('Debug')
 
@@ -112,7 +113,7 @@ let doTheJob = () => {
       debug.tick()
       cb(err, result)
     })
-  }, os.cpus().length -1)
+  }, assignedCpus)
 
   q.drain = function() {
     debug.finish()
