@@ -11,7 +11,15 @@ let initTime = null,
 const init = (count) => {
   initTime = moment()
   console.log()
-  progressBar = new progress('[:bar] :current/:total :percent :elapsed seconds', { total: count, width: 58 })
+  progressBar = new progress(
+    'analysing [:bar] :current/:total :percent :elapsed seconds',
+    {
+      total: count,
+      width: 48,
+      complete: '=',
+      incomplete: ' '
+    }
+  )
 }
 
 const tick = () => {

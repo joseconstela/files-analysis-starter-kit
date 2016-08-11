@@ -16,7 +16,6 @@ const async = require('async'),
 
 let   dbs = {},
       filesList = []
-      console.log('performanceTweaks', performanceTweaks);
 
 /**
  * Performance tweaks
@@ -33,7 +32,8 @@ process.on('exit', (code) => {
 
 
 debug.title('files-analysis-starter-kit')
-debug.info(`Using up to ${assignedCpus} CPUs ${performanceTweaks.cpus.model}`)
+debug.info(`Using up to ${assignedCpus} CPUs`)
+debug.info(performanceTweaks.cpus.model)
 
 debug.title('Debug')
 
@@ -54,7 +54,7 @@ async.parallel([
     mongoClient.connect(`${mongoUrl}`, (err, db) => {
       if (err) return _cb(err, db)
 
-      debug.success(`Connected to mongoDB @ ${mongoUrl}`)
+      debug.success(`Connected ${mongoUrl}`)
 
       // Assign the instance to the dbs object
       dbs.mongo = db
@@ -92,7 +92,7 @@ async.parallel([
     debug.info(`Looking recursively for files in ${config.files.path} folder`)
     filesLib.walk(config.files.path, (err, result) => {
       filesList = result
-      debug.success(`Managed to find ${filesList.length} files to be processed.`)
+      debug.success(`Managed to find ${filesList.length} files to be processed`)
       _cb()
     })
   }
