@@ -1,8 +1,8 @@
 'use strict'
 
 /**
- * Work makes the actual analysis
- * @param  {Object}   dbs      Contains DB connections
+ * Runs the analysis
+ * @param  {Object}   dbs      Contains the DB instances
  * @param  {Object}   fileInfo Contains the file information
  *
  * Example of fileInfo parameter:
@@ -33,12 +33,11 @@
  * }
  *
  * @param  {Function} callback [description]
- * @return {[type]}            [description]
  */
 module.exports.process = (dbs, fileInfo, callback) => {
 
   // Example code
-  require('myLibrary').process(dbs, fileInfo, callback)
+  require('your-analysis-library').process(dbs, fileInfo, callback)
 
 }
 
@@ -51,6 +50,6 @@ module.exports.process = (dbs, fileInfo, callback) => {
 module.exports.finish = (dbs, callback) => {
 
   // Example code
-  require('myLibrary').end(dbs, callback)
+  require('your-analysis-library').end(dbs, callback)
 
 }

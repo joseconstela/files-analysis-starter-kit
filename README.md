@@ -7,12 +7,24 @@ Project for analysing large amount of files with NodeJs (& MongoDb).
 ## How to start
 
 1. Edit ```config.js``` to set the path for the files to analyse and your MongoDb settings.
-2. Edit ```libs/analysis.js``` with your actual analysis code.
+2. Edit ```libs/analysis.js``` process function with your actual analysis code.
 3. Execute with ```node main.js```
 
 ## The work
 
-The actual analysis code must be placed within ```libs/analysis.js``` work's function.
+The actual analysis code must be placed within ```libs/analysis.js``` process function.
+
+```
+/**
+ * Runs the analysis
+ * @param  {Object}   dbs      Contains the DB instances
+ * @param  {Object}   fileInfo Contains the file information
+ * @param  {Function} callback Callback
+ */
+module.exports.process = (dbs, fileInfo, callback) => {
+  require('your-analysis-library').process(dbs, fileInfo, callback)
+}
+```
 
 The fileInfo parameter have the following structure:
 
