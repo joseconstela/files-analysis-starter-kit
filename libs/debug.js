@@ -46,15 +46,15 @@ const title = (str) => {
 }
 
 const success = (str) => {
-  console.log('✔︎'.green, new Date(), str)
+  console.log(`✔︎ ${new Date} ${str}`.green)
 }
 
 const error = (str) => {
-  console.log('❌ ERROR'.red, new Date(), str)
+  console.log(`❌ ${new Date} ${str}`.red)
 }
 
 const info = (str) => {
-  console.log(`➡`.yellow, new Date(), str)
+  console.log(`ℹ︎ ${new Date} ${str}`.yellow)
 }
 
 module.exports = {
