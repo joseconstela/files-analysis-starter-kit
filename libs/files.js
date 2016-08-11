@@ -1,7 +1,8 @@
 'use strict'
 
 const fs = require('fs'),
-      path = require('path')
+      path = require('path'),
+      mime = require('mime-types')
 
 /**
  * [description]
@@ -26,7 +27,10 @@ const walk = (dir, done) => {
             }
           })
         } else {
-          results.push(file)
+          results.push(Object.assign(path.parse(file), {
+            route: file,
+            mime: mime.lookup(path.parse(file).ext)
+          }))
           if (!--pending) {
             done(null, results)
           }
