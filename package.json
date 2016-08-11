@@ -1,0 +1,23 @@
+{
+  "name": "pdf-search-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "2.0.1",
+    "colors": "1.1.2",
+    "lodash": "4.14.1",
+    "moment": "2.14.1",
+    "momentjs": "1.1.14",
+    "mongodb": "2.2.5",
+    "pdf-text": "0.4.0"
+  }
+}
