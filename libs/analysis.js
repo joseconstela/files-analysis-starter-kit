@@ -36,7 +36,6 @@
  * @return {[type]}            [description]
  */
 const work = (dbs, fileInfo, callback) => {
-  console.log(fileInfo)
   setImmediate(callback)
 }
 

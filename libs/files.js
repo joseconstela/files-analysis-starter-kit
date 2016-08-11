@@ -27,6 +27,7 @@ const walk = (dir, done) => {
             }
           })
         } else {
+          
           results.push(Object.assign(path.parse(file), {
             route: file,
             mime: mime.lookup(path.parse(file).ext)
