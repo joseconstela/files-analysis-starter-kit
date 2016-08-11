@@ -1,6 +1,7 @@
 module.exports = {
   files: {
-    path: 'data' // by default, points to files-analysis-starter-kit/data folder
+    path: 'data', // by default, points to files-analysis-starter-kit/data folder
+    ignoreFiles: ['.DS_Store', '.gitkeep'] // Ingores this files (in all subfolders)
   },
   mongo: {
     url: 'mongodb://localhost:27017',

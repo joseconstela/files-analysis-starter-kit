@@ -2,7 +2,8 @@
 
 const fs = require('fs'),
       path = require('path'),
-      mime = require('mime-types')
+      mime = require('mime-types'),
+      config = require('../config')
 
 /**
  * [description]
@@ -27,11 +28,15 @@ const walk = (dir, done) => {
             }
           })
         } else {
-          
-          results.push(Object.assign(path.parse(file), {
-            route: file,
-            mime: mime.lookup(path.parse(file).ext)
-          }, {stats: fs.statSync(file)}))
+          let parse = path.parse(file)
+
+          if (config.files.ignoreFiles.indexOf(parse.name) < 0 ) {
+            results.push(Object.assign(parse, {
+              route: file,
+              mime: mime.lookup(path.parse(file).ext)
+            }, {stats: fs.statSync(file)}))
+          }
+
           if (!--pending) {
             done(null, results)
           }
