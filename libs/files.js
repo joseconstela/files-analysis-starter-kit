@@ -30,7 +30,7 @@ const walk = (dir, done) => {
           results.push(Object.assign(path.parse(file), {
             route: file,
             mime: mime.lookup(path.parse(file).ext)
-          }))
+          }, {stats: fs.statSync(file)}))
           if (!--pending) {
             done(null, results)
           }
