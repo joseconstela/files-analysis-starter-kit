@@ -20,7 +20,7 @@ let   dbs = {},
 /**
  * Performance tweaks
  */
-let assignedCpus = performanceTweaks.cpus.assigned()
+const assignedCpus = performanceTweaks.cpus.assigned()
 
 /*
 * ==========================================
@@ -109,16 +109,18 @@ let doTheJob = () => {
   debug.init(filesList.length)
 
   let q = async.queue((task, cb) => {
-    analysisLib.work(dbs, task, (err, result) => {
+    analysisLib.process(dbs, task, (err, result) => {
       debug.tick()
       cb(err, result)
     })
   }, assignedCpus)
 
   q.drain = function() {
-    debug.finish()
-    debug.success('All items have been processed')
-    process.exit()
+    analysisLib.finish(dbs, () => {
+      debug.finish()
+      debug.success('All items have been processed')
+      process.exit()
+    })
   }
 
   lodash.map(filesList, (f) => {

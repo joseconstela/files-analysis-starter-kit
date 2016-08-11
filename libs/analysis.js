@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * Do the actual analysis
+ * Work makes the actual analysis
  * @param  {Object}   dbs      Contains DB connections
  * @param  {Object}   fileInfo Contains the file information
  *
@@ -35,10 +35,22 @@
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-const work = (dbs, fileInfo, callback) => {
-  setImmediate(callback)
+module.exports.process = (dbs, fileInfo, callback) => {
+
+  // Example code
+  require('myLibrary').process(dbs, fileInfo, callback)
+
 }
 
-module.exports = {
-  work: work
+/**
+ * To be executed after the analysis gets completed for all files
+ * @param  {[type]}   dbs      [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+module.exports.finish = (dbs, callback) => {
+
+  // Example code
+  require('myLibrary').end(dbs, callback)
+
 }
