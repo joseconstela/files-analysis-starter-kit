@@ -1,18 +1,19 @@
 ![Files analysis starter kit](docs/header.png)
-
 <hr>
 
 Project for analysing large amount of files with NodeJs (& MongoDb).
 
 ![Screen capture](docs/screencapture.jpg)
 
+This NodeJs application searches for all files within an specific folder - recursively - and sends each file info to your processing library. It takes care of multithreading, queuing and managing database connections.
+
 ## How to start
 
-1. Edit ```config.js``` to set the path for the files to analyse and your MongoDb settings.
-2. Edit ```libs/analysis.js``` process function with your actual analysis code.
-3. Execute with ```node main.js```
+1. Edit [```config.js```](config.js) to set the path for the files to analyse and your MongoDb settings - and other settings.
+2. Edit the [```libs/analysis.js```](libs/analysis.js) process function to use your processing library/code.
+3. Execute with ```npm start```
 
-## The work
+## The processing
 
 The actual analysis code must be placed within ```libs/analysis.js``` process function.
 
