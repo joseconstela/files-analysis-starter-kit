@@ -8,9 +8,7 @@ const assigned = () => {
   let available = os.cpus().length
   let maxCpus = config.computation.maxCpus
 
-  if (maxCpus >= available) {
-    count = available - 1
-  }
+  count = maxCpus > available ? available : maxCpus;
 
   return count ? count : 1
 }
