@@ -1,17 +1,26 @@
 'use strict'
 
 const colors = require('colors'),
-      moment = require('moment')
+      moment = require('moment'),
+      progress = require('progress')
 
 let initTime = null,
-    finishTime = null
+    finishTime = null,
+    progressBar = null
 
-const init = () => {
+const init = (count) => {
   initTime = moment()
+  console.log()
+  progressBar = new progress('[:bar] :current/:total :percent :elapsed seconds', { total: count, width: 58 })
+}
+
+const tick = () => {
+  progressBar.tick()
 }
 
 const finish = () => {
   finishTime = moment()
+  console.log()
 }
 
 const elapsedTime = () => {
@@ -19,8 +28,7 @@ const elapsedTime = () => {
 }
 
 const exit = (code) => {
-  info(`Exit with code ${code}`)
-  console.log()
+  code === 0 ? success(`Exit with code ${code}`) : error(`Exit with code ${code}`)
 }
 
 const title = (str) => {
@@ -38,12 +46,13 @@ const error = (str) => {
 }
 
 const info = (str) => {
-  console.log(`➡ ${str}`)
+  console.log(`➡`.yellow, new Date(), str)
 }
 
 module.exports = {
   init: init,
   finish: finish,
+  tick: tick,
   elapsedTime: elapsedTime,
   exit: exit,
   title: title,
