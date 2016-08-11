@@ -2,6 +2,8 @@
 
 Project for analysing large amount of files with NodeJs (& MongoDb).
 
+![Screen capture](docs/screencapture.jpg)
+
 ## How to start
 
 1. Edit ```config.js``` to set the path for the files to analyse and your MongoDb settings.
