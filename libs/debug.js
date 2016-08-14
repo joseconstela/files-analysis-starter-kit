@@ -18,7 +18,7 @@ let initTime = null,
  */
 module.exports.init = (count) => {
   initTime = moment()
-  console.log()
+  console.log('')
   progressBar = new progress(
     'analysing [:bar] :current/:total :percent :elapsed seconds',
     {
@@ -42,7 +42,7 @@ module.exports.tick = () => {
  */
 module.exports.finish = () => {
   finishTime = moment()
-  console.log()
+  console.log('')
 }
 
 /**
@@ -59,7 +59,7 @@ module.exports.exit = (code) => {
  * @param  {String} str The section's title
  */
 module.exports.title = (str) => {
-  console.log()
+  console.log('')
   console.log(str.blue)
   console.log('============================================================'.blue)
 }
