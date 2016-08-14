@@ -4,9 +4,9 @@ const colors = require('colors'),
       moment = require('moment'),
       progress = require('progress')
 
-let initTime = null,
-    finishTime = null,
-    progressBar = null
+let   initTime = null,
+      finishTime = null,
+      progressBar = null
 
 /**
  * Starts the debugging system:
@@ -51,7 +51,7 @@ module.exports.finish = () => {
  * @return {[type]}      [description]
  */
 module.exports.exit = (code) => {
-  code === 0 ? success(`Exit with code ${code}`) : error(`Exit with code ${code}`)
+  code === 0 ? this.success(`Exit with code ${code}`) : this.error(`Exit with code ${code}`)
 }
 
 /**

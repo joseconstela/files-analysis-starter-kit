@@ -93,7 +93,7 @@ async.parallel([
     filesLib.walk(config.files.path, (err, result) => {
       filesList = result
       debug.success(`Managed to find ${filesList.length} files to be processed`)
-      _cb()
+      _cb(err)
     })
   }
 ], (err, result) => {
@@ -113,8 +113,8 @@ let doTheJob = () => {
 
   let q = async.queue((task, cb) => {
     analysisLib.process(dbs, task, (err, result) => {
-      debug.tick()
       cb(err, result)
+      debug.tick()
     })
   }, assignedCpus)
 
