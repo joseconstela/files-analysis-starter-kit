@@ -85,8 +85,8 @@ async.parallel([
 
   /**
    * Get the files list
-   * @param  {[type]} _cb [description]
-   * @return {[type]}     [description]
+   *
+   * @param  {Function} _cb Callback
    */
   function readDir(_cb) {
     debug.info(`Looking recursively for files in ${config.files.path} folder`)
@@ -104,6 +104,9 @@ async.parallel([
   }
 })
 
+/**
+ * Add each file to the queue for the process
+ */
 let doTheJob = () => {
 
   debug.init(filesList.length)

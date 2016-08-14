@@ -3,6 +3,10 @@
 const os = require('os'),
       config = require('../config')
 
+/**
+ * Calculates the maximun number of cpus from the config & system
+ * @return {Integer} Number of processors
+ */
 const assigned = () => {
   let count = 1
   let available = os.cpus().length

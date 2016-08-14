@@ -6,19 +6,18 @@ const fs = require('fs'),
       config = require('../config')
 
 /**
- * [description]
- * @param  {[type]}   dir  [description]
- * @param  {Function} done [description]
- * @return {[type]}        [description]
+ * Search for all files within a path and return the array in the Callback
+ * @param  {String}   dir  Path to walk
+ * @param  {Function} callback Callback
  */
-const walk = (dir, done) => {
+module.expots.walk = (dir, callback) => {
   let results = []
   fs.readdir(dir, function(err, list) {
-    if (err) return done(err)
+    if (err) return callback(err)
 
     let pending = list.length
 
-    if (!pending) return done(null, results)
+    if (!pending) return callback(null, results)
 
     list.forEach(function(file) {
       file = path.resolve(dir, file)
@@ -27,7 +26,7 @@ const walk = (dir, done) => {
           walk(file, function(err, res) {
             results = results.concat(res)
             if (!--pending) {
-              return done(null, results)
+              return callback(null, results)
             }
           })
         } else {
@@ -41,14 +40,10 @@ const walk = (dir, done) => {
           }
 
           if (!--pending) {
-            done(null, results)
+            callback(null, results)
           }
         }
       })
     })
   })
-}
-
-module.exports = {
-  walk: walk
 }
