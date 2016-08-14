@@ -16,11 +16,15 @@ module.exports.walk = (dir, callback) => {
 
   let results = []
   fs.readdir(dir, function(err, list) {
-    if (err) return callback(err)
+    if (err) {
+      return callback(err)
+    }
 
     let pending = list.length
 
-    if (!pending) return callback(null, results)
+    if (!pending) {
+      return callback(null, results)
+    }
 
     list.forEach(function(file) {
       file = path.resolve(dir, file)
