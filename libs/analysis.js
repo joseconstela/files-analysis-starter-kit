@@ -43,9 +43,8 @@ module.exports.process = (dbs, fileInfo, callback) => {
 
 /**
  * To be executed after the analysis gets completed for all files
- * @param  {[type]}   dbs      [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * @param  {Object}   dbs      Contains the instances of DB connections
+ * @param  {Function} callback Callback
  */
 module.exports.finish = (dbs, callback) => {
 

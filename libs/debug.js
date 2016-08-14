@@ -8,7 +8,15 @@ let initTime = null,
     finishTime = null,
     progressBar = null
 
-const init = (count) => {
+/**
+ * Starts the debugging system:
+ *
+ * - Sets the starting time for the processing
+ * - Initializes the progressbar
+ *
+ * @param  {Integer} count Number of files to be processed
+ */
+module.exports.init = (count) => {
   initTime = moment()
   console.log()
   progressBar = new progress(
@@ -22,49 +30,60 @@ const init = (count) => {
   )
 }
 
-const tick = () => {
+/**
+ * Flags a file al processed for the progressBar
+ */
+module.exports.tick = () => {
   progressBar.tick()
 }
 
-const finish = () => {
+/**
+ * Sets the processing's finish time
+ */
+module.exports.finish = () => {
   finishTime = moment()
   console.log()
 }
 
-const elapsedTime = () => {
-  info( `Elapsed time: ${initTime.diff(finishTime, 'seconds')} seconds` )
-}
-
-const exit = (code) => {
+/**
+ * [description]
+ * @param  {[type]} code [description]
+ * @return {[type]}      [description]
+ */
+module.exports.exit = (code) => {
   code === 0 ? success(`Exit with code ${code}`) : error(`Exit with code ${code}`)
 }
 
-const title = (str) => {
+/**
+ * Logs debugging's section title
+ * @param  {String} str The section's title
+ */
+module.exports.title = (str) => {
   console.log()
   console.log(str.blue)
   console.log('============================================================'.blue)
 }
 
-const success = (str) => {
+/**
+ * Logs a success message
+ * @param  {String} str The message to log
+ */
+module.exports.success = (str) => {
   console.log(`✔︎ ${new Date} ${str}`.green)
 }
 
-const error = (str) => {
+/**
+ * Logs an error message
+ * @param  {String} str The message to log
+ */
+module.exports.error = (str) => {
   console.log(`❌ ${new Date} ${str}`.red)
 }
 
-const info = (str) => {
+/**
+ * Logs an info message
+ * @param  {String} str The message to log
+ */
+module.exports.info = (str) => {
   console.log(`ℹ︎ ${new Date} ${str}`.yellow)
-}
-
-module.exports = {
-  init: init,
-  finish: finish,
-  tick: tick,
-  elapsedTime: elapsedTime,
-  exit: exit,
-  title: title,
-  success: success,
-  error: error,
-  info: info
 }
