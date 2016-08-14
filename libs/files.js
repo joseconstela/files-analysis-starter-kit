@@ -10,7 +10,10 @@ const fs = require('fs'),
  * @param  {String}   dir  Path to walk
  * @param  {Function} callback Callback
  */
-module.expots.walk = (dir, callback) => {
+module.exports.walk = (dir, callback) => {
+
+  let self = this
+
   let results = []
   fs.readdir(dir, function(err, list) {
     if (err) return callback(err)
@@ -23,7 +26,7 @@ module.expots.walk = (dir, callback) => {
       file = path.resolve(dir, file)
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          walk(file, function(err, res) {
+          self.walk(file, function(err, res) {
             results = results.concat(res)
             if (!--pending) {
               return callback(null, results)
