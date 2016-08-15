@@ -134,15 +134,17 @@ let doTheJob = () => {
   }, assignedCpus)
 
   q.drain = function() {
-    analysisLib.finish(dbs, () => {
+    analysisLib.after(dbs, () => {
       debug.finish()
       debug.success('All items have been processed')
       process.exit()
     })
   }
 
-  lodash.map(filesList, (f) => {
-    q.push(f)
+  analysisLib.before(dbs, () => {
+    lodash.map(filesList, (f) => {
+      q.push(f)
+    })
   })
 
 }

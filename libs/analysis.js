@@ -1,6 +1,18 @@
 'use strict'
 
 /**
+ * To be executed before the analysis gets started
+ * @param  {Object}   dbs      Contains the instances of DB connections
+ * @param  {Function} callback Callback
+ */
+module.exports.before = (dbs, callback) => {
+
+  // Example code
+  require('your-analysis-library').before(dbs, callback)
+
+}
+
+/**
  * Runs the analysis
  * @param  {Object}   dbs      Contains the DB instances
  * @param  {Object}   fileInfo Contains the file information
@@ -46,9 +58,9 @@ module.exports.process = (dbs, fileInfo, callback) => {
  * @param  {Object}   dbs      Contains the instances of DB connections
  * @param  {Function} callback Callback
  */
-module.exports.finish = (dbs, callback) => {
+module.exports.after = (dbs, callback) => {
 
   // Example code
-  require('your-analysis-library').end(dbs, callback)
+  require('your-analysis-library').after(dbs, callback)
 
 }
