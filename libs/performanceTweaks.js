@@ -1,18 +1,17 @@
 'use strict'
 
-const os = require('os'),
-      config = require('../config')
+const os = require('os')
 
 /**
  * Calculates the maximun number of cpus from the config & system
+ * @param  {Integer} wanted Number of CPUs specified
  * @return {Integer} Number of processors
  */
-const assigned = () => {
+const assigned = (wanted) => {
   let count = 1
   let available = os.cpus().length
-  let maxCpus = config.computation.maxCpus
 
-  count = maxCpus > available ? available : maxCpus;
+  count = wanted > available ? available : wanted;
 
   return count ? count : 1
 }

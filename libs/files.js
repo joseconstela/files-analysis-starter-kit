@@ -2,8 +2,10 @@
 
 const fs = require('fs'),
       path = require('path'),
-      mime = require('mime-types'),
-      config = require('../config')
+      mime = require('mime-types')
+
+// Ingores this files (in all subfolders)
+const ignoreFiles = ['.DS_Store', '.gitkeep']
 
 /**
  * Search for all files within a path and return the array in the Callback
@@ -39,7 +41,7 @@ module.exports.walk = (dir, callback) => {
         } else {
           let parse = path.parse(file)
 
-          if (config.files.ignoreFiles.indexOf(parse.name) < 0 ) {
+          if (ignoreFiles.indexOf(parse.name) < 0 ) {
             results.push(Object.assign(parse, {
               route: file,
               mime: mime.lookup(path.parse(file).ext)

@@ -7,11 +7,23 @@ Project for analysing large amount of files with NodeJs (& MongoDb).
 
 This NodeJs application searches for all files within an specific folder - recursively - and sends each file info to your processing library. It takes care of multithreading, queuing and managing database connections.
 
-## How to start
+## Usage
 
-1. Edit [```config.js```](config.js) to set the path for the files to analyse and your MongoDb settings - and other settings.
-2. Edit the [```libs/analysis.js```](libs/analysis.js) process function to use your processing library/code.
-3. Execute with ```npm start```
+1. Edit the [```libs/analysis.js```](libs/analysis.js) process function to use your processing library/code. See the examples folder.
+
+```
+Usage: main.js --cpus [num] --path [string]
+
+Options:
+  -c, --cpus     Max number of CPUs to use                                 [number] [required] [default: 1]
+  -p, --path     Files location                                       [string] [required] [default: "data"]
+  -m, --mongodb  Mongo url                  [string] [required] [default: "mongodb://localhost:27017/fask"]
+  -h, --help     Show help                                                                        [boolean]
+
+Examples:
+  main.js -c 4 -p data/  Uses up to 4 CPUs to analyse files wihtin the data
+                         folder and connects mongodb to its default host.
+```
 
 ## The processing
 

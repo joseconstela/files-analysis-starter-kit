@@ -6,21 +6,51 @@
 
 const async = require('async'),
       lodash = require('lodash'),
+      yargs = require('yargs'),
       debug = require('./libs/debug'),
       filesLib = require('./libs/files'),
       analysisLib = require('./libs/analysis'),
       performanceTweaks = require('./libs/performanceTweaks'),
       pdfText = require('pdf-text'),
-      mongoClient = require('mongodb').MongoClient,
-      config = require('./config')
+      mongoClient = require('mongodb').MongoClient
 
 let   dbs = {},
       filesList = []
 
+let   argv = yargs
+        .usage('Usage: $0 --cpus [num] --path [string]')
+        .option('c', {
+            alias: 'cpus',
+            demand: true,
+            default: 1,
+            describe: 'Max number of CPUs to use',
+            type: 'number'
+        })
+        .option('p', {
+            alias: 'path',
+            demand: true,
+            default: 'data',
+            describe: 'Files location',
+            type: 'string'
+        })
+        .option('m', {
+            alias: 'mongodb',
+            demand: true,
+            default: 'mongodb://localhost:27017/fask',
+            describe: 'Mongo url',
+            type: 'string'
+        })
+
+        .help('h')
+        .alias('h', 'help')
+        .example('$0 -c 4 -p data/', 'Uses up to 4 CPUs to analyse files wihtin'
+                  + 'the data folder and connects mongodb to its default host.')
+        .argv
+
 /**
  * Performance tweaks
  */
-const assignedCpus = performanceTweaks.cpus.assigned()
+const assignedCpus = performanceTweaks.cpus.assigned(argv.cpus)
 
 /*
 * ==========================================
@@ -30,56 +60,30 @@ process.on('exit', (code) => {
   debug.exit(code)
 })
 
-
 debug.title('files-analysis-starter-kit')
-debug.info(`Using up to ${assignedCpus} CPUs`)
-debug.info(performanceTweaks.cpus.model)
+debug.info(`Using up to ${assignedCpus} CPUs (${performanceTweaks.cpus.mode})`)
+debug.info(`Using ${argv.p} folder`)
 
 debug.title('Debug')
 
 async.parallel([
 
   /**
-   * Performs the connection to MongoDB and drops - pre-analysis - any
-   * collection specified in config.js
+   * Performs the connection to MongoDB
    *
    * @param  {function} _cb Callback
    */
   function connectDb(_cb) {
 
-    // Build the mongoUrl for reuse
-    const mongoUrl = `${config.mongo.url}/${config.mongo.db}`
-
     // Connects to the server
-    mongoClient.connect(`${mongoUrl}`, (err, db) => {
+    mongoClient.connect(`${argv.m}`, (err, db) => {
       if (err) return _cb(err, db)
 
-      debug.success(`Connected ${mongoUrl}`)
+      debug.success(`Connected ${argv.m}`)
 
       // Assign the instance to the dbs object
       dbs.mongo = db
-
-      // Drops any collection specified in config.js
-      if (config.mongo.drop.length > 0) {
-
-        debug.info(`Dropping collections...`)
-        debug.info(`\t${config.mongo.drop.join(', ')}`)
-
-        let q = async.queue((collection, cb) => {
-          dbs.mongo.dropCollection(collection, cb)
-        }, 1)
-
-        q.drain = function() {
-          _cb(null, null)
-        }
-
-        lodash.map(config.mongo.drop, (c) => {
-          q.push(c)
-        })
-
-      } else {
         _cb(null, null)
-      }
     })
   },
 
@@ -89,16 +93,27 @@ async.parallel([
    * @param  {Function} _cb Callback
    */
   function readDir(_cb) {
-    debug.info(`Looking recursively for files in ${config.files.path} folder`)
-    filesLib.walk(config.files.path, (err, result) => {
-      filesList = result
-      debug.success(`Managed to find ${filesList.length} files to be processed`)
-      _cb(err)
+    debug.info(`Looking recursively for files...`)
+    filesLib.walk(argv.p, (err, result) => {
+
+      if (!err) {
+
+        if(!result.length) {
+          err = 'No files found'
+        } else {
+          filesList = result
+          debug.success(`Found ${filesList.length} files to be processed`)
+        }
+
+      }
+
+      _cb(err, result)
     })
   }
 ], (err, result) => {
   if (err) {
     debug.error(err)
+    process.exit(1)
   } else {
     doTheJob()
   }
