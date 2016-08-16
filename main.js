@@ -21,21 +21,18 @@ let   argv = yargs
         .usage('Usage: $0 --cpus [num] --path [string]')
         .option('c', {
             alias: 'cpus',
-            demand: true,
             default: 1,
             describe: 'Max number of CPUs to use',
             type: 'number'
         })
         .option('p', {
             alias: 'path',
-            demand: true,
             default: 'data',
             describe: 'Files location',
             type: 'string'
         })
         .option('m', {
             alias: 'mongodb',
-            demand: true,
             default: 'mongodb://localhost:27017/fask',
             describe: 'Mongo url',
             type: 'string'
