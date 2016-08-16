@@ -58,7 +58,7 @@ process.on('exit', (code) => {
 })
 
 debug.title('files-analysis-starter-kit')
-debug.info(`Using up to ${assignedCpus} CPUs (${performanceTweaks.cpus.mode})`)
+debug.info(`Using up to ${assignedCpus} CPUs (${performanceTweaks.cpus.model})`)
 debug.info(`Using ${argv.p} folder`)
 
 debug.title('Debug')
