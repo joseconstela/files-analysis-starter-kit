@@ -1,45 +1,55 @@
 ![Files analysis starter kit](docs/header.png)
 <hr>
 
-Project for analysing large amount of files with NodeJs (& MongoDb).
+NodeJS package for analysing large amount of files.
 
 ![Screen capture](docs/screencapture.jpg)
 
-This NodeJs application searches for all files within an specific folder - recursively - and sends each file info to your processing library. It takes care of multithreading, queuing and managing database connections.
+This NodeJs library searches for all files within an specific folder - recursively - and sends each file info to your processing library. It takes care of multithreading, queuing and managing database connections.
 
 ## Usage
 
-1. Edit the [```libs/analysis.js```](libs/analysis.js) process function to use your processing library/code. See the examples folder.
+1. Require the package
 
 ```
-Usage: main.js --cpus [num] --path [string]
-
-Options:
-  -c, --cpus     Max number of CPUs to use                                 [number] [required] [default: 1]
-  -p, --path     Files location                                       [string] [required] [default: "data"]
-  -m, --mongodb  Mongo url                  [string] [required] [default: "mongodb://localhost:27017/fask"]
-  -h, --help     Show help                                                                        [boolean]
-
-Examples:
-  main.js -c 4 -p data/  Uses up to 4 CPUs to analyse files wihtin the data
-                         folder and connects mongodb to its default host.
+$ npm install fask --save
 ```
 
-## The processing
-
-The actual analysis code must be placed within ```libs/analysis.js``` process function.
+2. Require it and define your analysis
 
 ```
-/**
- * Runs the analysis
- * @param  {Object}   dbs      Contains the DB instances
- * @param  {Object}   fileInfo Contains the file information
- * @param  {Function} callback Callback
- */
-module.exports.process = (dbs, fileInfo, callback) => {
-  require('your-analysis-library').process(dbs, fileInfo, callback)
+const fask = require('files-analysis-starter-kit')
+
+// Pre-analysis hook
+fask.before = (dbs, callback) => { callback() }
+
+// The actual file processing
+fask.process = (dbs, fileInfo, callback) => {
+  setImmediate(callback)
 }
+
+// Post-analysis hook
+fask.after = (dbs, callback) => { callback() }
+
+// Launch the analysis
+fask.start({...})
+
 ```
+
+---
+## Options
+
+Options for the ```.start``` method:
+
+Parameter     | Description
+---           | ---
+cpus          | Max number of CPUs to use for concurrency
+path          | Files location
+mongodb       | MongoDB connection url
+
+---
+
+## fileInfo
 
 The fileInfo parameter have the following structure:
 
@@ -71,7 +81,9 @@ The fileInfo parameter have the following structure:
 }
 ```
 
-To use the MongoDb connection use ```dbs.mongo```. i.e.:
+## Databases instances
+
+To use the DB connections use the ```dbs``` object. i.e.:
 
 ```
 dbs.mongo.getCollection('myCollection').insert(...)
