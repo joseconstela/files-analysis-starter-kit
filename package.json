@@ -1,11 +1,8 @@
 {
-  "name": "files-analysis-starter-kit",
+  "name": "fask",
   "version": "0.3.0",
-  "description": "",
+  "description": "NodeJS package for analysing large amount of files.",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "tape 'test/**/*-test.js'"
   },
