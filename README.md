@@ -1,9 +1,9 @@
-![Files analysis starter kit](docs/header.png)
+![Files analysis starter kit](https://raw.githubusercontent.com/joseconstela/files-analysis-starter-kit/master/docs/header.png)
 <hr>
 
 NodeJS package for analysing large amount of files.
 
-![Screen capture](docs/screencapture.jpg)
+![Screen capture](https://raw.githubusercontent.com/joseconstela/files-analysis-starter-kit/master/docs/screencapture.jpg)
 
 This NodeJs library searches for all files within an specific folder - recursively - and sends each file info to your processing library. It takes care of multithreading, queuing and managing database connections.
 
