@@ -41,11 +41,13 @@ fask.start({...})
 
 Options for the ```.start``` method:
 
-Parameter     | Description
----           | ---
-cpus          | Max number of CPUs to use for concurrency
-path          | Files location
-mongodb       | MongoDB connection url
+Parameter     | Default           | Description
+---           | ---               | ---
+cpus          | 100               | Max number of CPUs to use for concurrency
+limitFiles    | -1 (no limit)     | Limit the number or files to be processed
+mimeType      | null (no filter)  | Only
+path          | "data"            | Files location
+mongodb       | localhost         | MongoDB connection url
 
 ---
 
