@@ -1,6 +1,6 @@
 {
   "name": "fask",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "NodeJS package for analysing large amount of files.",
   "main": "index.js",
   "scripts": {
