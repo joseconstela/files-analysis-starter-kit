@@ -8,7 +8,7 @@ const async = require('async'),
       pdfText = require('pdf-text'),
       mongoClient = require('mongodb').MongoClient
 
-const version = '0.3.0'
+const version = '0.3.1'
 
 let   dbs = {},         // Holds the instances for DB connections
       filesList = [],   // Holds the files list to be analysed
@@ -62,6 +62,8 @@ exports.start = (opts) => {
 
   let options = lodash.defaults(opts || {}, {
     cpus : 100, // Max number of CPUs to use
+    mimeType: null, // Filter files by mime/type
+    limitFiles: -1, // Limit the number of files to be processed
     path: 'data', // Files location
     mongodb: 'mongodb://localhost:27017/fask' // Mongo url
   })
@@ -85,7 +87,9 @@ exports.start = (opts) => {
 
       // Connects to the server
       mongoClient.connect(`${options.mongodb}`, (err, db) => {
-        if (err) return _cb(err, db)
+        if (err) {
+          return _cb(err, db)
+        }
 
         debug.success(`Connected ${options.mongodb}`)
 
@@ -102,7 +106,7 @@ exports.start = (opts) => {
      */
     function readDir(_cb) {
       debug.info(`Looking recursively for files...`)
-      filesLib.walk(options.path, (err, result) => {
+      filesLib.walk(options.path, options, (err, result) => {
 
         if (!err) {
 
@@ -110,6 +114,11 @@ exports.start = (opts) => {
             err = 'No files found'
           } else {
             filesList = result
+
+            if (options.limitFiles) {
+              filesList = filesList.slice(0, options.limitFiles)
+            }
+
             debug.success(`Found ${filesList.length} files to be processed`)
           }
 
@@ -118,43 +127,35 @@ exports.start = (opts) => {
         _cb(err, result)
       })
     }
+
   ], (err, result) => {
     if (err) {
       debug.error(err)
       process.exit(1)
     } else {
-      doTheJob()
+      debug.init(filesList.length)
+
+      let q = async.queue((task, cb) => {
+        this.process(dbs, task, (err, result) => {
+          debug.tick()
+          cb(err, result)
+        })
+      }, assignedCpus)
+
+      q.drain = () => {
+        this.after(dbs, () => {
+          debug.finish()
+          debug.success('All items have been processed')
+          process.exit()
+        })
+      }
+
+      this.before(dbs, () => {
+        lodash.map(filesList, (f) => {
+          q.push(f)
+        })
+      })
     }
-  })
-
-}
-
-/**
- * Add each file to the queue for the process
- */
-let doTheJob = () => {
-
-  debug.init(filesList.length)
-
-  let q = async.queue((task, cb) => {
-    this.process(dbs, task, (err, result) => {
-      debug.tick()
-      cb(err, result)
-    })
-  }, assignedCpus)
-
-  q.drain = () => {
-    this.after(dbs, () => {
-      debug.finish()
-      debug.success('All items have been processed')
-      process.exit()
-    })
-  }
-
-  this.before(dbs, () => {
-    lodash.map(filesList, (f) => {
-      q.push(f)
-    })
   })
 
 }

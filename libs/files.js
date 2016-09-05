@@ -12,7 +12,7 @@ const ignoreFiles = ['.DS_Store', '.gitkeep']
  * @param  {String}   dir  Path to walk
  * @param  {Function} callback Callback
  */
-module.exports.walk = (dir, callback) => {
+module.exports.walk = (dir, options, callback) => {
 
   let self = this
 
@@ -32,7 +32,10 @@ module.exports.walk = (dir, callback) => {
       file = path.resolve(dir, file)
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          self.walk(file, function(err, res) {
+          self.walk(file, options, function(err, res) {
+
+            console.log(res)
+
             results = results.concat(res)
             if (!--pending) {
               return callback(null, results)
@@ -42,10 +45,17 @@ module.exports.walk = (dir, callback) => {
           let parse = path.parse(file)
 
           if (ignoreFiles.indexOf(parse.name) < 0 ) {
-            results.push(Object.assign(parse, {
-              route: file,
-              mime: mime.lookup(path.parse(file).ext)
-            }, {stats: fs.statSync(file)}))
+
+            let mt = mime.lookup(path.parse(file).ext)
+
+            // Apply mime/type filtering
+            if (!options.mimeType || mt === options.mimeType) {
+              results.push(Object.assign(parse, {
+                route: file,
+                mime: mt
+              }, {stats: fs.statSync(file)}))
+            }
+
           }
 
           if (!--pending) {
