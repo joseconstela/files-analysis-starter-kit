@@ -5,10 +5,9 @@ const async = require('async'),
       debug = require('./libs/debug'),
       filesLib = require('./libs/files'),
       performanceTweaks = require('./libs/performanceTweaks'),
-      pdfText = require('pdf-text'),
       mongoClient = require('mongodb').MongoClient
 
-const version = '0.3.1'
+const version = '0.3.2'
 
 let   dbs = {},         // Holds the instances for DB connections
       filesList = [],   // Holds the files list to be analysed
