@@ -20,7 +20,7 @@ module.exports.init = (count) => {
   initTime = moment()
   console.log('')
   progressBar = new progress(
-    'analysing [:bar] :current/:total :percent :elapsed seconds',
+    'analysing [:bar] [Files::current/:total] [:percent :elapsed seconds] [ETA::eta seconds]',
     {
       total: count,
       width: 48,

@@ -1,15 +1,13 @@
 {
   "name": "files-analysis-starter-kit",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "node main.js",
-    "dev": "nodemon main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape 'test/**/*-test.js'"
   },
   "author": "",
   "license": "MIT",
@@ -21,7 +19,9 @@
     "moment": "2.14.1",
     "momentjs": "1.1.14",
     "mongodb": "2.2.5",
-    "progress": "1.1.8",
-    "yargs": "4.8.1"
+    "progress": "1.1.8"
+  },
+  "devDependencies": {
+    "tape": "4"
   }
 }
