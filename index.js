@@ -30,7 +30,7 @@ exports.version = version
  * Function to be executed pre-analysis.
  *
  * @param  {Object}   dbs Instances for DB connections
- * @param  {Function} cb  [description]
+ * @param  {Function} cb  Callback to be executed.
  */
 exports.before = (dbs, cb) => { setImmediate(cb) }
 
@@ -60,10 +60,10 @@ exports.after = (dbs, cb) => { setImmediate(cb) }
 exports.start = (opts) => {
 
   let options = lodash.defaults(opts || {}, {
-    cpus : 100, // Max number of CPUs to use
+    cpus : 100,     // Max number of CPUs to use
     mimeType: null, // Filter files by mime/type
     limitFiles: -1, // Limit the number of files to be processed
-    path: 'data', // Files location
+    path: 'data',   // Files location
     mongodb: 'mongodb://localhost:27017/fask' // Mongo url
   })
 
@@ -80,7 +80,7 @@ exports.start = (opts) => {
     /**
      * Performs the connection to MongoDB
      *
-     * @param  {function} _cb Callback
+     * @param  {function} _cb Callback to be executed.
      */
     function connectDb(_cb) {
 
@@ -101,7 +101,7 @@ exports.start = (opts) => {
     /**
      * Get the files list
      *
-     * @param  {Function} _cb Callback
+     * @param  {Function} _cb Callback to be executed.
      */
     function readDir(_cb) {
       debug.info(`Looking recursively for files...`)
